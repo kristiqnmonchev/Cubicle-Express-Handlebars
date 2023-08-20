@@ -10,6 +10,10 @@ app.engine('hbs', handlebars.engine({
 }));
 app.set('view engine', 'hbs');
 app.set('views', 'src/views');
+// ==
+
+// Load static Files
+app.use(express.static('./src/static'))
 
 app.get('/', (req, res) => {
     res.render('index')
