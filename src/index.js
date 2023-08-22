@@ -4,11 +4,13 @@ const expressConfig = require('./config/expressConfig')
 const handlebarsConfig = require('./config/handlebarsConfig')
 const homeController = require('./controllers/homeControllers')
 const cubeController = require('./controllers/cubeController')
+const dbConnect = require('./config/mongooseConfing')
 
 const app = express();
 const PORT = 5000;
 expressConfig(app)
 handlebarsConfig(app)
+dbConnect()
 
 app.use(homeController)
 app.use('/cubes', cubeController)
