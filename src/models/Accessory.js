@@ -6,7 +6,9 @@ const accessorySchema = new mongoose.Schema({
     name: String,
     imageUrl: String,
     Description: String,
-    Cubes: [],
+    // Cubes: [],
 })
 
-exports.Accesoary = () => mongoose.model('Accesoary', accessorySchema);
+const Accesory = mongoose.model('Accesoary', accessorySchema);
+
+module.exports = Accesory;
