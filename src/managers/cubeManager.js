@@ -35,4 +35,4 @@ exports.getAll = async( search, from, to) => {
     return result
 }
 
-exports.getOne = (cubeId) => cubes.find(x => x.id === cubeId);
+exports.getOne = (cubeId) => Cube.findById(cubeId).lean()
