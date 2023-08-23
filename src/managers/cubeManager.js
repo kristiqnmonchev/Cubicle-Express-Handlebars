@@ -1,5 +1,6 @@
 const uniqId = require('uniqid')
 const mongoose = require('mongoose')
+const Accesory = require('../models/Accessory')
 const cubes = []
 
 // CUBE SCHEMA
@@ -8,6 +9,10 @@ const cubeSchema = new mongoose.Schema({
     description: String,
     imageUrl: String,
     difficultyLevel: Number,
+    accessories: [{
+        type: mongoose.Types.ObjectId,
+        ref: Accesory
+    }]
 })
 const Cube = mongoose.model('Cube', cubeSchema)
 
@@ -36,3 +41,10 @@ exports.getAll = async( search, from, to) => {
 }
 
 exports.getOne = (cubeId) => Cube.findById(cubeId).lean()
+exports.getOneWithAccessories = (cubeId) => this.getOne(cubeId).populate('accessories').lean()
+
+exports.attachAccessory = async (cubeId, accessoryId) => {
+    const currentCube = await Cube.findById(cubeId);
+    currentCube.accessories.push(accessoryId)
+    return currentCube.save()
+}
