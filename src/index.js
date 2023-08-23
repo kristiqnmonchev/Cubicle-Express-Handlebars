@@ -4,6 +4,7 @@ const expressConfig = require('./config/expressConfig')
 const handlebarsConfig = require('./config/handlebarsConfig')
 const homeController = require('./controllers/homeControllers')
 const cubeController = require('./controllers/cubeController')
+const accesoaryController = require('./controllers/accessoaryController')
 const mongoose = require('./config/mongooseConfing')
 
 const app = express();
@@ -14,6 +15,7 @@ mongoose.connectDb()
 
 app.use(homeController)
 app.use('/cubes', cubeController)
+app.use('/accessoary', accesoaryController)
 app.get('*', (req, res) => {
     res.render('404')
 })
