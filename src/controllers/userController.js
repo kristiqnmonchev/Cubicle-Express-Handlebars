@@ -1,24 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+const userModel = require('../models/User')
 
 router.get('/register', (req, res) => {
     res.render('registerPage')
 })
 
-router.post('/register', (req, res, next) => {
-    const data = req.body;
-    try {
-        Object.values(data).forEach(x => {
-            if (x === '') {
-                throw new Error('All fields are required')
-            }
-        })
-    } catch(err) {
-        next(err)
-    }
+router.post('/register', async (req, res, next) => {
+    const {username, password, rePassword} = req.body;
+
+    const hash = await bcrypt.hash(password, 5)
+    await userModel.create({username, password: hash})
+
     
-    console.log(data)
-    res.redirect('/user/register')
+    console.log(hash)
+    res.redirect('/')
 })
 
 
