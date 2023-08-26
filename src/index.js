@@ -6,6 +6,7 @@ const homeController = require('./controllers/homeControllers')
 const cubeController = require('./controllers/cubeController')
 const accesoaryController = require('./controllers/accessoaryController')
 const mongoose = require('./config/mongooseConfing')
+const userController = require('./controllers/userController')
 
 const app = express();
 const PORT = 5000;
@@ -16,6 +17,7 @@ mongoose.connectDb()
 app.use(homeController)
 app.use('/cubes', cubeController)
 app.use('/accessoary', accesoaryController)
+app.use('/user', userController)
 app.get('*', (req, res) => {
     res.render('404')
 })
