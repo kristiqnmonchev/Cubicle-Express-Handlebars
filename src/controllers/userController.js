@@ -3,7 +3,10 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const userModel = require('../models/User')
 const userManager = require('../managers/userManager')
-const cookieParser = require('cookie-parser')
+const jwt = require('../lib/jwt')
+const {SECRET} = require('../config/config')
+
+
 
 router.get('/register', (req, res) => {
     res.render('registerPage')
@@ -14,7 +17,7 @@ router.post('/register', async (req, res, next) => {
 
     const hash = await bcrypt.hash(password, 5)
     await userModel.create({username, password: hash})
-    res.cookie('user', username)
+    // res.cookie('user', username)
     
     res.redirect('/')
 })
@@ -32,9 +35,20 @@ router.post('/login', async(req, res) => {
     if (!validate) {
         return res.render('404')
     }
-    res.cookie('user', username)
-    res.redirect('/')
 
+    const payloads = {
+        _id: user._id,
+        username: user.username
+    }
+    const token = await jwt.sign(payloads, SECRET, {expiresIn: '2d'})
+
+    res.cookie('auth', token, {httpOnly: true})
+    res.redirect('/')
+})
+
+router.get('/logout', (req, res) => {
+    res.clearCookie('auth')
+    res.redirect('/')
 })
 
 

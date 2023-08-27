@@ -1,6 +1,7 @@
 const uniqId = require('uniqid')
 const mongoose = require('mongoose')
 const Accesory = require('../models/Accessory')
+const User = require('../models/User')
 const cubes = []
 
 // CUBE SCHEMA
@@ -12,6 +13,10 @@ const cubeSchema = new mongoose.Schema({
     accessories: [{
         type: mongoose.Types.ObjectId,
         ref: Accesory
+    }],
+    creator: [{
+        type: mongoose.Types.ObjectId,
+        ref: User
     }]
 })
 const Cube = mongoose.model('Cube', cubeSchema)

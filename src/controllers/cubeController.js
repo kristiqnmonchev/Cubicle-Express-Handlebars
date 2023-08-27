@@ -7,13 +7,17 @@ const { route } = require('./accessoaryController')
 
 router.get('/create', (req, res) => {
     // console.log(cubeManager.getAll())
+    console.log(req.user)
+
     res.render('create')
 })
 
 router.post('/create', async (req, res) => {
 
     const {name, description, imageUrl, difficultyLevel} = req.body;
-    await cubeManager.create({name, description, imageUrl, difficultyLevel: Number(difficultyLevel)})
+    const creator = req.user
+    console.log(creator)
+    await cubeManager.create({name, description, imageUrl, difficultyLevel: Number(difficultyLevel), creator: req.user._id})
     
     res.redirect('/')
 })
